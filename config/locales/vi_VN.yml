@@ -358,31 +358,31 @@ vi_VN:
       title: Cài đặt Phòng
       update: Cập nhật Phòng
       client: Chọn chế độ sử dụng
-      join_moderator: All users join as moderators
+      join_moderator: Mọi người đều tham gia với quyền quản trị viên
       mute: Tắt tiếng người dùng khi tham gia
-      require_approval: Require moderator approval before joining
-      start: Allow any user to start this meeting
+      require_approval: Yêu cầu phê duyệt của người điều hành trước khi tham gia
+      start: Cho phép bất kỳ người dùng nào bắt đầu cuộc họp này
       footer_text: Điều chỉnh phòng của bạn có thể được thực hiện bất cứ lúc nào.
     rename_room:
       name_placeholder: "Nhập mới tên phòng... "
     share_access:
-      footer: Sharing a room with a user allows them to start the room and view the room's recordings
-      list: Shared With
-      title: Share Room Access
-      save: Save Changes
-      cancel_changes: Cancel Changes
-      select: Select User
+      footer: Chia sẻ phòng với người dùng cho phép họ bắt đầu phòng và xem bản ghi âm của phòng
+      list: Chia sẻ với
+      title: Chia sẻ truy cập phòng
+      save: Lưu thay đổi
+      cancel_changes: Huỷ thay đổi
+      select: Chọn người dùng
     merge_user:
-      cancel: Cancel
-      from: Account to be Merged
-      title: Merge User Accounts
-      to: Primary Account
-      save: Merge
-      footer: The rooms of the account to be merged will be transfered over to the Primary Account's room list and then the account will be deleted.
+      cancel: Huỷ
+      from: Tài khoản được hợp nhất
+      title: Hợp nhất tài khoản người dùng
+      to: Tài khoản thường
+      save: Hợp nhất
+      footer: Các phòng của tài khoản được sáp nhập sẽ được chuyển sang danh sách phòng của Tài khoản chính và sau đó tài khoản sẽ bị xóa.
   name_update_success: Tên phòng đã được thay đổi thành công!
   no_user_email_exists: Không có người dùng hiện tại với email được chỉ định. Hãy chắc chắn rằng bạn đã gõ nó chính xác.
   omniauth_error: Một lỗi xảy ra trong khi xác thực với omniauth. Vui lòng thử lại hoặc liên hệ với quản trị viên!
-  omniauth_specific_error: "%{error} occured while authenticating with omniauth. Please try again or contact an administrator!"
+  omniauth_specific_error: "%{error} lỗi xảy ra trong khi xác thực với omniauth. Vui lòng thử lại hoặc liên hệ với quản trị viên!"
   pagy:
     nav:
       prev: "&lsaquo; Trở về"
@@ -426,18 +426,18 @@ vi_VN:
       video: Video
   registration:
     approval:
-      fail: Your account has not been approved yet. If multiples days have passed since you signed up, please contact your administrator.
-      signup: Your account was successfully created. It has been sent to an administrator for approval.
+      fail: Tài khoản của bạn chưa được phê duyệt. Nếu nhiều ngày trôi qua kể từ khi bạn đăng ký, vui lòng liên hệ với quản trị viên của bạn.
+      signup: Tài khoản của bạn đã được tạo thành công. Nó đã được gửi đến một quản trị viên để phê duyệt.
     banned:
-      fail: You do not have access to this application. If you believe this is a mistake, please contact your administrator.
+      fail: Bạn không có quyền truy cập vào ứng dụng này. Nếu bạn tin rằng đây là một sai lầm, vui lòng liên hệ với quản trị viên của bạn.
     deprecated:
-      new_signin: Select a new login method for you account. All your rooms from your old account will be migrated to the new account
+      new_signin: Chọn một phương thức đăng nhập mới cho tài khoản của bạn. Tất cả các phòng của bạn từ tài khoản cũ của bạn sẽ được chuyển sang tài khoản mới
       twitter_signin: Signing in via Twitter has been deprecated and will be removed in the next release. Click <a href="%{link}"> here </a> to move your account to a new authentication method
       twitter_signup: Sign up via Twitter has been deprecated. Please use a different sign up method
       merge_success: Successfully merged your twitter account with your new account. Your old twitter account has been deleted
     invite:
-      fail: Your token is either invalid or has expired. If you believe this is a mistake, please contact your administrator.
-      no_invite: You do not have an invitation to join. Please contact your administrator to receive one.
+      fail: Mã thông báo của bạn không hợp lệ hoặc đã hết hạn. Nếu bạn tin rằng đây là một sai lầm, vui lòng liên hệ với quản trị viên của bạn.
+      no_invite: Bạn không có lời mời tham gia. Vui lòng liên hệ với quản trị viên của bạn để nhận được một.
   remove: Xoá
   rename: Đổi tên
   reset_password:
@@ -445,55 +445,55 @@ vi_VN:
     password: Mật khẩu mới
     confirm: Xác nhận mật khẩu mới
     update: Cập nhật Mật khẩu
-    auth_change: The authentication method has changed. Please check your email to set your password.
+    auth_change: Phương thức xác thực đã thay đổi. Vui lòng kiểm tra email của bạn để đặt mật khẩu của bạn.
   roles:
-    active: Active
+    active: Đang hoạt động
     admin: Admin
-    banned: Banned
-    deleted: Deleted
-    pending: Pending
-    user: User
+    banned: Bị cấm
+    deleted: Đã xoá
+    pending: Đang chờ
+    user: Người dùng
   room:
-    access_code_required: Please enter a valid access code to join the room
+    access_code_required: Vui lòng nhập mã truy cập hợp lệ để tham gia phòng
     create_room: Tạo Phòng
     create_room_error: Có lỗi khi tạo phòng
     create_room_success: Phòng được tạo thành công
     delete:
-      home_room: Can't delete user's Home Room
-      success: Room deleted successfully
-      fail: Failed to delete room (%{error})
-    enter_the_access_code: Enter the room's access code
-    invalid_provider: You have entered an invalid url. Please check the url and try again.
+      home_room: Không thể xóa Home Room của người dùng
+      success: Phòng đã xóa thành công
+      fail: Không thể xóa phòng (%{error})
+    enter_the_access_code: Nhập mã truy cập của phòng
+    invalid_provider: Bạn đã nhập một url không hợp lệ. Vui lòng kiểm tra url và thử lại.
     invited: Bạn đã được mời tham gia
     invite_participants: Mời Người tham gia
     join: Tham gia
     last_session: "Phiên cuối cùng trên %{session}"
-    login: Enter
+    login: Bắt đầu
     owner: Người sở hữu
-    owner_banned: This room is currently unavailable
+    owner_banned: Phòng này hiện không có sẵn
     no_room:
-      description: Enter the room url or the room id for the room you want to join.
-      edit_profile: Edit User Profile
-      go_to: Go to the Room
-      invalid_room_uid: The room url/uid you entered was invalid.
-      placeholder: Room url/uid
-      no_recent_rooms: You don't have any recently joined rooms
-      recent_rooms: Go To a Recently Joined Room
-      title: Join a Room
+      description: Nhập url phòng hoặc id phòng cho phòng bạn muốn tham gia.
+      edit_profile: Chỉnh sửa hồ sơ người dùng
+      go_to: Về phòng
+      invalid_room_uid: Url/uid phòng bạn nhập không hợp lệ.
+      placeholder: Url/uid phòng
+      no_recent_rooms: Bạn không có bất kỳ phòng nào đã tham gia gần đây
+      recent_rooms: Đi đến một phòng tham gia gần đây
+      title: Tham gia một phòng
     no_sessions: Phòng này chưa có phiên nào!
     recordings: Bản ghi hình của Phòng
-    room_limit: You have reached the maximum number of rooms allowed
-    room_limit_exceeded: You have exceeded the number of rooms allowed. Please delete %{difference} room(s) to access this room.
+    room_limit: Bạn đã đạt đến số lượng phòng tối đa được phép
+    room_limit_exceeded: Bạn đã vượt quá số lượng phòng cho phép. Vui lòng xoá %{difference} phòng để vào phòng này.
     sessions: Phiên
     settings: Cài đặt Phòng
-    share: Manage Access
-    shared_by: Shared by %{email}
+    share: Quản lý truy cập
+    shared_by: Được chia sẻ bởi %{email}
     start: Bắt đầu
     unavailable: Phòng này hiện không có sẵn do email của người sở hữu không được xác minh.
     update_settings_error: Có lỗi khi cập nhật cài đặt phòng
     update_settings_success: Cài đặt phòng được cập nhật thành công
     wait:
-      message: The meeting hasn't started yet.
+      message: Cuộc họp chưa bắt đầu
       auto: Bạn sẽ tự động tham gia khi phòng bắt đầu.
   settings:
     account:
@@ -502,7 +502,7 @@ vi_VN:
       provider: Đối tác cấp tài khoản
       image: Hình ảnh
       image_url: Đường đẫn URL hình ảnh hồ sơ
-      roles: User Roles
+      roles: Vai trò
       subtitle: Cập nhật thông tin Tài khoản
       title: Thông tin Tài khoản
     delete:
