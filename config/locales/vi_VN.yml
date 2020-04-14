@@ -37,7 +37,7 @@ vi_VN:
         enabled: Kích hoạt
         info: Chỉ cho phép người dùng đã đăng nhập tham gia vào phòng
         title: Yêu cầu đăng nhập cho phòng
-          user-info: Bạn phải đăng nhập trước khi tham gia vào phòng này
+        user-info: Bạn phải đăng nhập trước khi tham gia vào phòng này
       branding:
         change: Đổi hình ảnh
         info: Thay đổi logo góc trái
