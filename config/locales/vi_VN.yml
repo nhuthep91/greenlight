@@ -53,10 +53,10 @@ vi_VN:
         button: Clear Auth
       color:
         info: Đổi màu chủ đạo sẽ tự động đổi lại tông màu sáng và tối. Tông màu sáng và tối có thể chỉnh riêng.
-          title: Màu chủ đạo
-          regular: Màu chính
-          lighten: Màu sáng hơn
-          darken: Màu tối hơn
+        title: Màu chủ đạo
+        regular: Màu chính
+        lighten: Màu sáng hơn
+        darken: Màu tối hơn
       log_level:
         title: Log Level
         information: Thay đổi Log Level cho toàn bộ
