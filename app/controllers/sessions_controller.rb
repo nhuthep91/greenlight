@@ -71,8 +71,7 @@ class SessionsController < ApplicationController
     #require 'json'
 
     #@atm_host = ''
-    logger.info "Support: #{params[:code]} is logged."
-    render 'app/views/main/index.html.erb'
+    render html: '<div>html goes here</div>'.html_safe
   end    
   # End
   # POST /users/login
