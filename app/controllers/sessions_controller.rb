@@ -61,6 +61,19 @@ class SessionsController < ApplicationController
     @user = User.new
   end
 
+  # GET /code/:access_code (TrinhNX)
+  def access
+    # Send this access code to ATM to verify
+    # If get user info ok => then allow sign in
+    # TODO: Saving this access_code into db
+    # If failed or invalid => then ignore
+    #require 'net/http'
+    #require 'json'
+
+    #@atm_host = ''
+    logger.info "Support: #{params[:access_code]} is logged."
+  end    
+  # End
   # POST /users/login
   def create
     logger.info "Support: #{session_params[:email]} is attempting to login."

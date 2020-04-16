@@ -84,6 +84,9 @@ Rails.application.routes.draw do
     # Handles login of greenlight provider accounts.
     post '/login', to: 'sessions#create', as: :create_session
 
+    # TrinhNX: Add external code access from ATM
+    get '/login/:access_code', to: 'sessions#access', as: :create_session
+    # End
     # Log the user out of the session.
     get '/logout', to: 'sessions#destroy'
 
