@@ -29,6 +29,7 @@ Rails.application.routes.draw do
   get '/signup', to: 'sessions#new', as: :signup
   post '/signup', to: 'users#create', as: :create_user
   get '/ldap_signin', to: 'sessions#ldap_signin', as: :ldap_signin
+  get '/access', to: 'sessions#access'
 
   # Redirect to terms page
   match '/terms', to: 'users#terms', via: [:get, :post]
@@ -83,10 +84,6 @@ Rails.application.routes.draw do
   scope '/u' do
     # Handles login of greenlight provider accounts.
     post '/login', to: 'sessions#create', as: :create_session
-
-    # TrinhNX: Add external code access from ATM
-    get '/login/:access_code', to: 'sessions#access', as: :create_session
-    # End
     # Log the user out of the session.
     get '/logout', to: 'sessions#destroy'
 
