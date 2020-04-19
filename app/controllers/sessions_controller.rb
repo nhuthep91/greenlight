@@ -22,6 +22,8 @@ class SessionsController < ApplicationController
   include Emailer
   include LdapAuthenticator
 
+  skip_before_action :redirect_to_https, :set_user_domain, :set_user_settings, :maintenance_mode?, :migration_error?,
+  :user_locale, :check_admin_password, :check_user_role, only: [:sso]
   skip_before_action :verify_authenticity_token, only: [:omniauth, :fail]
   before_action :check_user_signup_allowed, only: [:new]
   before_action :ensure_unauthenticated_except_twitter, only: [:new, :signin, :ldap_signin]
@@ -114,6 +116,11 @@ class SessionsController < ApplicationController
   def destroy
     logout
     redirect_to root_path
+  end
+
+  def sso
+    response = "Hello world"
+    render plain: response
   end
 
   # GET/POST /auth/:provider/callback

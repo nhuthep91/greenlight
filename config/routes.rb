@@ -87,6 +87,8 @@ Rails.application.routes.draw do
     # Log the user out of the session.
     get '/logout', to: 'sessions#destroy'
 
+    get '/sso', to: 'sessions#sso'
+
     # Account management.
     get '/:user_uid/edit', to: 'users#edit', as: :edit_user
     get '/:user_uid/change_password', to: 'users#change_password', as: :change_password
