@@ -29,7 +29,7 @@ Rails.application.routes.draw do
   get '/signup', to: 'sessions#new', as: :signup
   post '/signup', to: 'users#create', as: :create_user
   get '/ldap_signin', to: 'sessions#ldap_signin', as: :ldap_signin
-  get '/access/:code', to: 'sso#signin'
+  get '/health_check1', to: 'sso#access'
 
   # Redirect to terms page
   match '/terms', to: 'users#terms', via: [:get, :post]
@@ -87,7 +87,7 @@ Rails.application.routes.draw do
     # Log the user out of the session.
     get '/logout', to: 'sessions#destroy'
 
-    get '/sso', to: 'sessions#sso'
+    get '/sso', to: 'health_check#all'
 
     # Account management.
     get '/:user_uid/edit', to: 'users#edit', as: :edit_user
