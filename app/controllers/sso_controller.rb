@@ -13,7 +13,7 @@ class SsoController < ApplicationController
     data = URI.parse(url).read
     json = JSON.parse(data)
     user = json["data"]["user"];
-    info = json["data"]["user_info"];
+    info = json["data"]["user"]["user_info"];
     #TrinhNX: updating data with following information
     #provider: account from atmlucky
     #social_uid: the id from atmlucky
