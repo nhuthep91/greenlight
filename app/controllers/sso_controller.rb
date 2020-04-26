@@ -13,7 +13,6 @@ class SsoController < ApplicationController
     data = URI.parse(url).read
     json = JSON.parse(data)
     user = json["data"]["user"];
-    info = json["data"]["user"]["user_info"];
     #TrinhNX: updating data with following information
     #provider: account from atmlucky
     #social_uid: the id from atmlucky
@@ -26,20 +25,19 @@ class SsoController < ApplicationController
     # Reuse method from user model
     auth = {}
     auth['info']={}
-    logger.info "Support1: Auth user #{user} is attempting to login."
+    logger.info "Support: User #{user} is attempting to login."
     auth['provider'] = 'atmlucky'
     auth['uid'] = user['id']
-    logger.info "Support2: Auth user #{auth} is attempting to login."
     authInfo = auth['info']
     authInfo['name'] = user["name"]
-    authInfo['nickname'] = info["name"]
+    authInfo['nickname'] = user["name"]
     authInfo['email'] = user["email"]
     authInfo['image'] = user['avatar']
     point = user["point"]
     # Add auth infor (for auth_values)
-    logger.info "Support: Auth user #{user} is attempting to login."
+    logger.info "Support: authInfo user #{auth} is attempting to login."
     user = User.from_omniauth(auth)
-    logger.info "Support: Auth user #{user.email} is attempting to login."
+    logger.info "Support: User from omniauth #{user} is attempting to login."
     login(user)
     logger.info "Support: #{user.email} user has been logged."
     end
