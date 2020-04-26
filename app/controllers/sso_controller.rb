@@ -21,13 +21,17 @@ class SsoController < ApplicationController
     # TODO: Migrate to add point columns
     # TODO: Exception then gonna redirect to : see redirect_to
     # Reuse method from user model
-    auth = Hash.recursive
+    auth = {}
+    auth['info']={}
+    logger.info "Support1: Auth user #{user} is attempting to login."
     auth['provider'] = 'atmlucky'
     auth['uid'] = user['id']
+    logger.info "Support2: Auth user #{auth} is attempting to login."
     authInfo = auth['info']
     authInfo['name'] = user["name"]
     authInfo['nickname'] = user["name"]
     authInfo['email'] = user["email"]
+    authInfo['image'] = user['avatar']
     point = user["point"]
     # Add auth infor (for auth_values)
 
@@ -36,14 +40,8 @@ class SsoController < ApplicationController
     logger.info "Support: Auth user #{user.email} is attempting to login."
 
     login(user)
-    #logger.info "Support: #{user.email} user has been logged."
+    logger.info "Support: #{user.email} user has been logged."
     redirect_to root_path
     # render plain: user_domain
-    end
-
-    class Hash
-        def self.recursive
-          new { |hash, key| hash[key] = recursive }
-        end
     end
 end
