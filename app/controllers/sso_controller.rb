@@ -8,9 +8,9 @@ class SsoController < ApplicationController
 	request_url = "https://atmlucky.com/api/auth/code?"
 	token = "code=" + params[:access_token]
 	url = "#{request_url}#{token}"
-    @data = URI.parse(url).read
-    @json = JSON.parse(@data)
-    @user = @json["data"]["user"];
+    data = URI.parse(url).read
+    json = JSON.parse(data)
+    user = json["data"]["user"];
     #TrinhNX: updating data with following information
     #provider: account from atmlucky
     #social_uid: the id from atmlucky
@@ -21,18 +21,29 @@ class SsoController < ApplicationController
     # TODO: Migrate to add point columns
     # TODO: Exception then gonna redirect to : see redirect_to
     # Reuse method from user model
-    @auth = {}
-    @auth['provider'] = 'atmlucky'
-    @auth['uid'] = @user['id']
-    @auth['name'] = @user["name"]
-    @auth['username'] = @user["name"]
-    @auth['email'] = @user["email"]
-    @point = @user["point"]
-    user = User.from_omniauth(@auth)
+    auth = Hash.recursive
+    auth['provider'] = 'atmlucky'
+    auth['uid'] = user['id']
+    authInfo = auth['info']
+    authInfo['name'] = user["name"]
+    authInfo['nickname'] = user["name"]
+    authInfo['email'] = user["email"]
+    point = user["point"]
+    # Add auth infor (for auth_values)
+
+    logger.info "Support: Auth user #{user} is attempting to login."
+    user = User.from_omniauth(auth)
     logger.info "Support: Auth user #{user.email} is attempting to login."
+
     login(user)
-    logger.info "Support: #{@user.email} user has been logged."
+    #logger.info "Support: #{user.email} user has been logged."
     redirect_to root_path
-    # render plain: @user_domain
+    # render plain: user_domain
+    end
+
+    class Hash
+        def self.recursive
+          new { |hash, key| hash[key] = recursive }
+        end
     end
 end

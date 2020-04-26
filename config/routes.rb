@@ -86,8 +86,8 @@ Rails.application.routes.draw do
     post '/login', to: 'sessions#create', as: :create_session
     # Log the user out of the session.
     get '/logout', to: 'sessions#destroy'
-
-    get '/sso', to: 'health_check#all'
+    # Accessing using token
+    get '/sso', to: 'sso#access'
 
     # Account management.
     get '/:user_uid/edit', to: 'users#edit', as: :edit_user
