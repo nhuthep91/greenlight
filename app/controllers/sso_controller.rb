@@ -1,6 +1,6 @@
 class SsoController < ApplicationController
     include Authenticator
-    
+
     skip_before_action :set_user_settings, :maintenance_mode?, :migration_error?,
     :user_locale, :check_admin_password, :check_user_role
     # GET /health_check
@@ -13,6 +13,7 @@ class SsoController < ApplicationController
     data = URI.parse(url).read
     json = JSON.parse(data)
     user = json["data"]["user"];
+    info = json["data"]["user_info"];
     #TrinhNX: updating data with following information
     #provider: account from atmlucky
     #social_uid: the id from atmlucky
@@ -31,19 +32,15 @@ class SsoController < ApplicationController
     logger.info "Support2: Auth user #{auth} is attempting to login."
     authInfo = auth['info']
     authInfo['name'] = user["name"]
-    authInfo['nickname'] = user["name"]
+    authInfo['nickname'] = info["name"]
     authInfo['email'] = user["email"]
     authInfo['image'] = user['avatar']
     point = user["point"]
     # Add auth infor (for auth_values)
-
     logger.info "Support: Auth user #{user} is attempting to login."
     user = User.from_omniauth(auth)
     logger.info "Support: Auth user #{user.email} is attempting to login."
-
     login(user)
     logger.info "Support: #{user.email} user has been logged."
-    redirect_to root_path
-    # render plain: user_domain
     end
 end
