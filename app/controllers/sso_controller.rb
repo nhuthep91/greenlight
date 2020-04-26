@@ -1,4 +1,6 @@
 class SsoController < ApplicationController
+    include Authenticator
+    
     skip_before_action :set_user_settings, :maintenance_mode?, :migration_error?,
     :user_locale, :check_admin_password, :check_user_role
     # GET /health_check
