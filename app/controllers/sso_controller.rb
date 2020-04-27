@@ -13,16 +13,7 @@ class SsoController < ApplicationController
             data = URI.parse(url).read
             json = JSON.parse(data)
             user = json["data"]["user"];
-            #TrinhNX: updating data with following information
-            #provider: account from atmlucky
-            #social_uid: the id from atmlucky
-            #email and name is from atmlucky
-            #username has same value vs name
-            #pwd random (min 6 character)
-            #Check user exist
             # TODO: Migrate to add point columns
-            # TODO: Exception then gonna redirect to : see redirect_to
-            # Reuse method from user model
             auth = {}
             auth['info']={}
             auth['provider'] = 'atmlucky'
@@ -33,19 +24,18 @@ class SsoController < ApplicationController
             authInfo['email'] = user["email"]
             authInfo['image'] = user['avatar']
             point = user["point"]
-            @user_exists = check_user_exists(auth['uid'], auth['provier'])
+            @user_exists = check_user_exists(auth['uid'], auth['provider'])
             logger.info "Support: authInfo user #{auth} is attempting to login. #{@user_exists}"
-            # if(@user_exists)
-            #     user = User.from_omniauth(auth)
-            #     logger.info "Support: User from omniauth #{user} is attempting to login."
-            #     login(user)
-            #     logger.info "Support: #{user.email} user has been logged."
-            # else
-                # Redirect to login page
-            redirect_to signin_path
-            # end
+            if(@user_exists)
+                user = User.from_omniauth(auth)
+                logger.info "Support: User from omniauth #{user} is attempting to login."
+                login(user)
+                logger.info "Support: #{user.email} user has been logged."
+            else
+                redirect_to signin_path
+            end
         rescue Exception => e
-            logger.info "Exception #{e.message}"
+            logger.info "Exception #{e.backtrace}"
             redirect_to signin_path
         end
 
