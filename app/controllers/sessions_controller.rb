@@ -76,8 +76,37 @@ class SessionsController < ApplicationController
     render html: '<div>html goes here</div>'.html_safe
   end    
   # End
+    # TrinhNX: Custom login
+    # POST /users/login
+    def create
+        require "net/https"
+        require "uri"
+        require 'json'
+        begin
+            logger.info "Support: #{session_params[:email]} -- #{session_params[:password]}  is attempting to login."
+            uri = URI.parse("https://atmlucky.com/api/login")
+            http = Net::HTTP.new(uri.host, uri.port)
+            http.use_ssl = true
+            http.open_timeout = 3 # in seconds
+            http.read_timeout = 3 # in seconds
+
+            request = Net::HTTP::Post.new(uri.request_uri)
+            request.set_form_data({"name" => session_params[:email], "password" => session_params[:password]})
+            response = http.request(request)
+            puts "#{response.body}"
+            # Login in BBB => OK then
+            #   Check if user exist here => no then create new one with same pwd
+            #   Check if user exist here => update password
+            # Login fail then signin path with invalid token
+            #login(user)
+        rescue Exception => e
+            logger.info "Exception #{e.backtrace}"
+            redirect_to signin_path
+        end
+    end
+    # End custom
   # POST /users/login
-  def create
+  def create_origin
     logger.info "Support: #{session_params[:email]} is attempting to login."
 
     user = User.include_deleted.find_by(email: session_params[:email])

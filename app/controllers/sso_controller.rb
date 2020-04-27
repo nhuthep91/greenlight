@@ -38,7 +38,6 @@ class SsoController < ApplicationController
             logger.info "Exception #{e.backtrace}"
             redirect_to signin_path
         end
-
     end
     
     def check_user_exists(s_uid, provider_name)
