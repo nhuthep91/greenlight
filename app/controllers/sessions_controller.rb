@@ -50,7 +50,7 @@ class SessionsController < ApplicationController
   end
 
   # GET /signup
-  def new
+def new
     # Check if the user needs to be invited
     if invite_registration
       redirect_to root_path, flash: { alert: I18n.t("registration.invite.no_invite") } unless params[:invite_token]
@@ -62,23 +62,10 @@ class SessionsController < ApplicationController
 
     @user = User.new
   end
-
-  # GET /code/:access_code (TrinhNX)
-  def access
-    # Send this access code to ATM to verify
-    # If get user info ok => then allow sign in
-    # TODO: Saving this access_code into db
-    # If failed or invalid => then ignore
-    #require 'net/http'
-    #require 'json'
-
-    #@atm_host = ''
-    render html: '<div>html goes here</div>'.html_safe
-  end    
-  # End
+ 
     # TrinhNX: Custom login
     # POST /users/login
-    def create
+    def create_new
         require "net/https"
         require "uri"
         require 'json'
@@ -106,7 +93,7 @@ class SessionsController < ApplicationController
     end
     # End custom
   # POST /users/login
-  def create_origin
+  def create
     logger.info "Support: #{session_params[:email]} is attempting to login."
 
     user = User.include_deleted.find_by(email: session_params[:email])
