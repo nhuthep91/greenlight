@@ -67,30 +67,53 @@ def new
     # POST /users/login
     def create
         require "net/https"
-        require "uri"
         require 'json'
         begin
-            logger.info "Support: #{session_params[:email]} -- #{session_params[:password]}  is attempting to login."
-            uri = URI.parse("https://atmlucky.com/api/login")
-            http = Net::HTTP.new(uri.host, uri.port)
+            # TODO: Check again flow logic here, check in bbb first (email) => then invoking atm (loading time)
+            url = 'atmlucky.com'
+            uri = '/api/login'
+            params = {"name" => session_params[:email], "password" => session_params[:password]}
+            http = Net::HTTP.new(url,443)
             http.use_ssl = true
             http.open_timeout = 3 # in seconds
             http.read_timeout = 3 # in seconds
-
-            request = Net::HTTP::Post.new(uri.request_uri)
-            request.content_type("application/x-www-form-urlencoded")
-            request.set_form_data({"name" => session_params[:email], "password" => session_params[:password]})
-            request["Content-Type"] = "application/json"
-            response = http.request(request)
-            puts "Response #{response.code} - #{response.message}: #{response.body}"
+            
+            request = Net::HTTP::Post.new(uri)
+            request.form_data = params
+            res = http.request(request)
+            # parse body as json
+            json = JSON.parse(res.body);
+            if json.key?("errors")
+                raise Exception.new('Invalid credentials')
+            end
+            # Provider is sso#access(atmmlucky)
+            user = User.include_deleted.find_by(email: session_params[:email], provider: 'atmlucky')
             # Login in BBB => OK then
-            #   Check if user exist here => no then create new one with same pwd
+            if user.nil?
+                #   Check if user exist here => no then create new one
+                user = json["data"]["user"];
+                auth = {}
+                auth['info']={}
+                auth['provider'] = 'atmlucky'
+                auth['uid'] = user['id']
+                authInfo = auth['info']
+                authInfo['name'] = user["name"]
+                authInfo['nickname'] = user["name"]
+                authInfo['email'] = user["email"]
+                authInfo['image'] = user['avatar']
+                point = user["point"]
+                logger.info "Support: authInfo user #{auth} is attempting to login. #{user_exists}"
+                user = User.from_omniauth(auth)
+            end
+            # TODO: Temporarily not update password here because we will authenticate in ATM not here
             #   Check if user exist here => update password
-            # Login fail then signin path with invalid token
-            #login(user)
+            # Login as normal one
+            login(user)
         rescue Exception => e
+            # Login fail then signin path with invalid token
+            logger.info "Support: #{session_params[:email]} -- #{session_params[:password]}  is attempting to login."
             logger.info "Exception #{e.backtrace}"
-            redirect_to signin_path
+            redirect_to(signin_path, alert: I18n.t("invalid_credentials"))
         end
     end
     # End custom

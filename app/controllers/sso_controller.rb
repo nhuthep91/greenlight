@@ -12,6 +12,9 @@ class SsoController < ApplicationController
         begin
             data = URI.parse(url).read
             json = JSON.parse(data)
+            if json.key?("errors")
+                raise Exception.new('Invalid token')
+            end
             user = json["data"]["user"];
             # TODO: Migrate to add point columns
             auth = {}
@@ -24,23 +27,13 @@ class SsoController < ApplicationController
             authInfo['email'] = user["email"]
             authInfo['image'] = user['avatar']
             point = user["point"]
-            @user_exists = check_user_exists(auth['uid'], auth['provider'])
-            logger.info "Support: authInfo user #{auth} is attempting to login. #{@user_exists}"
-            if(@user_exists)
-                user = User.from_omniauth(auth)
-                logger.info "Support: User from omniauth #{user} is attempting to login."
-                login(user)
-                logger.info "Support: #{user.email} user has been logged."
-            else
-                redirect_to signin_path
-            end
+            logger.info "Support: authInfo user #{auth} is attempting to login. #{user_exists}"
+            user = User.from_omniauth(auth)
+            login(user)
+            logger.info "Support: #{user.email} user has been logged."
         rescue Exception => e
             logger.info "Exception #{e.backtrace}"
             redirect_to signin_path
         end
     end
-    
-    def check_user_exists(s_uid, provider_name)
-		User.exists?(social_uid: s_uid, provider: provider_name)
-	end
 end
