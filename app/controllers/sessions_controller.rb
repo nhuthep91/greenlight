@@ -65,7 +65,7 @@ def new
  
     # TrinhNX: Custom login
     # POST /users/login
-    def create_new
+    def create
         require "net/https"
         require "uri"
         require 'json'
@@ -78,9 +78,11 @@ def new
             http.read_timeout = 3 # in seconds
 
             request = Net::HTTP::Post.new(uri.request_uri)
+            request.content_type("application/x-www-form-urlencoded")
             request.set_form_data({"name" => session_params[:email], "password" => session_params[:password]})
+            request["Content-Type"] = "application/json"
             response = http.request(request)
-            puts "#{response.body}"
+            puts "Response #{response.code} - #{response.message}: #{response.body}"
             # Login in BBB => OK then
             #   Check if user exist here => no then create new one with same pwd
             #   Check if user exist here => update password
@@ -93,7 +95,7 @@ def new
     end
     # End custom
   # POST /users/login
-  def create
+  def create_origin
     logger.info "Support: #{session_params[:email]} is attempting to login."
 
     user = User.include_deleted.find_by(email: session_params[:email])
