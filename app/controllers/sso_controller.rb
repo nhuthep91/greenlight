@@ -27,7 +27,7 @@ class SsoController < ApplicationController
             authInfo['email'] = user["email"]
             authInfo['image'] = user['avatar']
             point = user["point"]
-            logger.info "Support: authInfo user #{auth} is attempting to login. #{user_exists}"
+            logger.info "Support: authInfo user #{auth} is attempting to login."
             user = User.from_omniauth(auth)
             login(user)
             logger.info "Support: #{user.email} user has been logged."
