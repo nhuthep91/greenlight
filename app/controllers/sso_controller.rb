@@ -33,7 +33,7 @@ class SsoController < ApplicationController
             logger.info "Support: #{user.email} user has been logged."
         rescue Exception => e
             logger.info "Exception #{e.backtrace}"
-            redirect_to signin_path
+            redirect_to(signin_path, alert: I18n.t("invalid_credentials"))
         end
     end
 end
