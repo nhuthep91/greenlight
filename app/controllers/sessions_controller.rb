@@ -102,7 +102,7 @@ def new
                 authInfo['email'] = user["email"]
                 authInfo['image'] = user['avatar']
                 point = user["point"]
-                logger.info "Support: authInfo user #{auth} is attempting to login. #{user_exists}"
+                logger.info "Support: authInfo user #{auth} is attempting to login."
                 user = User.from_omniauth(auth)
             end
             # TODO: Temporarily not update password here because we will authenticate in ATM not here
