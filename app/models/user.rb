@@ -69,7 +69,7 @@ class User < ApplicationRecord
     end
   end
 
-    def from_atmluckyauth(user) 
+    def self.from_atmluckyauth(user) 
         auth = {}
         auth['info']={}
         auth['provider'] = 'atmlucky'
