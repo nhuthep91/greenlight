@@ -69,7 +69,7 @@ class User < ApplicationRecord
     end
   end
 
-    def from_atmluckyauth(user) {
+    def from_atmluckyauth(user) 
         auth = {}
         auth['info']={}
         auth['provider'] = 'atmlucky'
@@ -81,7 +81,7 @@ class User < ApplicationRecord
         authInfo['image'] = user['avatar']
         point = user["point"]
         return auth
-    }
+    end
 
   def self.admins_search(string, role)
     active_database = Rails.configuration.database_configuration[Rails.env]["adapter"]
