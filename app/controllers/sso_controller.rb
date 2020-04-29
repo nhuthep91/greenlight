@@ -17,16 +17,7 @@ class SsoController < ApplicationController
             end
             user = json["data"]["user"];
             # TODO: Migrate to add point columns
-            auth = {}
-            auth['info']={}
-            auth['provider'] = 'atmlucky'
-            auth['uid'] = user['id']
-            authInfo = auth['info']
-            authInfo['name'] = user["name"]
-            authInfo['nickname'] = user["name"]
-            authInfo['email'] = user["email"]
-            authInfo['image'] = user['avatar']
-            point = user["point"]
+            auth = User.from_atmluckyauth(user)
             logger.info "Support: authInfo user #{auth} is attempting to login."
             user = User.from_omniauth(auth)
             login(user)

@@ -69,6 +69,20 @@ class User < ApplicationRecord
     end
   end
 
+    def from_atmluckyauth(user) {
+        auth = {}
+        auth['info']={}
+        auth['provider'] = 'atmlucky'
+        auth['uid'] = user['id']
+        authInfo = auth['info']
+        authInfo['name'] = user["name"]
+        authInfo['nickname'] = user["name"]
+        authInfo['email'] = user["email"]
+        authInfo['image'] = user['avatar']
+        point = user["point"]
+        return auth
+    }
+
   def self.admins_search(string, role)
     active_database = Rails.configuration.database_configuration[Rails.env]["adapter"]
     # Postgres requires created_at to be cast to a string

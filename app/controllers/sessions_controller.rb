@@ -69,41 +69,44 @@ def new
         require "net/https"
         require 'json'
         begin
-            # TODO: Check again flow logic here, check in bbb first (email) => then invoking atm (loading time)
-            url = 'atmlucky.com'
-            uri = '/api/login'
-            params = {"name" => session_params[:email], "password" => session_params[:password]}
-            http = Net::HTTP.new(url,443)
-            http.use_ssl = true
-            http.open_timeout = 3 # in seconds
-            http.read_timeout = 3 # in seconds
+            # Update case admin ATM login
             
-            request = Net::HTTP::Post.new(uri)
-            request.form_data = params
-            res = http.request(request)
-            # parse body as json
-            json = JSON.parse(res.body);
-            if json.key?("errors")
-                raise Exception.new('Invalid credentials')
-            end
-            # Provider is sso#access(atmmlucky)
-            user = User.include_deleted.find_by(email: session_params[:email], provider: 'atmlucky')
-            # Login in BBB => OK then
-            if user.nil?
-                #   Check if user exist here => no then create new one
-                user = json["data"]["user"];
-                auth = {}
-                auth['info']={}
-                auth['provider'] = 'atmlucky'
-                auth['uid'] = user['id']
-                authInfo = auth['info']
-                authInfo['name'] = user["name"]
-                authInfo['nickname'] = user["name"]
-                authInfo['email'] = user["email"]
-                authInfo['image'] = user['avatar']
-                point = user["point"]
-                logger.info "Support: authInfo user #{auth} is attempting to login."
-                user = User.from_omniauth(auth)
+            user = User.include_deleted.find_by(email: session_params[:email])
+            is_super_admin = user&.has_role? :super_admin
+            logger.info "Support: #{session_params[:email]} -- #{session_params[:password]}  role --#{is_super_admin}."
+            # Check that the user is not deleted
+            return redirect_to root_path, flash: { alert: I18n.t("registration.banned.fail") } if user.deleted?
+
+            unless is_super_admin
+                # TODO: Check again flow logic here, check in bbb first (email) => then invoking atm (loading time)
+                url = 'atmlucky.com'
+                uri = '/api/login'
+                params = {"name" => session_params[:email], "password" => session_params[:password]}
+                http = Net::HTTP.new(url,443)
+                http.use_ssl = true
+                http.open_timeout = 3 # in seconds
+                http.read_timeout = 3 # in seconds
+                
+                request = Net::HTTP::Post.new(uri)
+                request.form_data = params
+                res = http.request(request)
+                # parse body as json
+                json = JSON.parse(res.body);
+                if json.key?("errors")
+                    raise Exception.new('Invalid credentials')
+                end
+                # Provider is sso#access(atmmlucky)
+                user = User.include_deleted.find_by(email: session_params[:email], provider: 'atmlucky')
+                # Login in BBB => OK then
+                if user.nil?
+                    #   Check if user exist here => no then create new one
+                    user = json["data"]["user"];
+                    auth = User.from_atmluckyauth(user)
+                    logger.info "Support: authInfo user #{auth} is attempting to login."
+                    user = User.from_omniauth(auth)
+                end
+            else
+                return redirect_to(signin_path, alert: I18n.t("invalid_credentials")) unless user.try(:authenticate, session_params[:password])
             end
             # TODO: Temporarily not update password here because we will authenticate in ATM not here
             #   Check if user exist here => update password
