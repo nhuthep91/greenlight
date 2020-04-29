@@ -72,6 +72,7 @@ def new
             # Update case admin ATM login
             
             user = User.include_deleted.find_by(email: session_params[:email])
+            logger.info "Support: #{user}." if user
             is_super_admin = user&.has_role? :super_admin
             logger.info "Support: #{session_params[:email]} -- #{session_params[:password]}  role --#{is_super_admin}."
             # Check that the user is not deleted
