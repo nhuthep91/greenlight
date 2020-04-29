@@ -82,8 +82,6 @@ def new
                 end
             end
             logger.info "Support: #{session_params[:email]} -- #{session_params[:password]}  role --#{is_super_admin}."
-            # Check that the user is not deleted
-            return redirect_to root_path, flash: { alert: I18n.t("registration.banned.fail") } if user.deleted?
 
             unless is_super_admin
                 # TODO: Check again flow logic here, check in bbb first (email) => then invoking atm (loading time)
