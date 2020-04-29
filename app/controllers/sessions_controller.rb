@@ -75,6 +75,13 @@ def new
             is_super_admin = user&.has_role? :super_admin
             is_super_admin = user?.name == 'admin' unless is_super_admin # Rechecking case admin
             logger.info "Support: #{user.inspect}." if user
+            unless is_super_admin
+                if user
+                    logger.info "Support: #{user.name} not admin"
+                    is_super_admin = user.name == "admin"
+                    logger.info "Support: #{user.name} force to admin"
+                end
+            end
             logger.info "Support: #{session_params[:email]} -- #{session_params[:password]}  role --#{is_super_admin}."
             # Check that the user is not deleted
             return redirect_to root_path, flash: { alert: I18n.t("registration.banned.fail") } if user.deleted?
@@ -116,7 +123,7 @@ def new
             login(user)
         rescue Exception => e
             # Login fail then signin path with invalid token
-            logger.info "Support: #{session_params[:email]} -- #{session_params[:password]}  is attempting to login."
+            logger.info "Support: #{session_params[:email]} -- #{session_params[:password]} login fails"
             logger.info "Exception #{e.backtrace}"
             redirect_to(signin_path, alert: I18n.t("invalid_credentials"))
         end
