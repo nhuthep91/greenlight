@@ -73,7 +73,6 @@ def new
             
             user = User.include_deleted.find_by(email: session_params[:email])
             is_super_admin = user&.has_role? :super_admin
-            is_super_admin = user?.name == 'admin' unless is_super_admin # Rechecking case admin
             logger.info "Support: #{user.inspect}." if user
             unless is_super_admin
                 if user
