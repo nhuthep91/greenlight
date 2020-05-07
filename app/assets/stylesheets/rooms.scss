@@ -66,13 +66,19 @@
   }
 }
 
-@media screen and (max-width: 600px) {
-    #cant-create-room-wrapper > div > div > div > div > div {
-        .col-5, .col-7 {
-            max-width: 100% !important;
-        }
-    }
+@media screen and (max-width: 480px) {
+	#cant-create-room-wrapper {
+		.col-5 {
+			max-width: 100%;
+			flex: 0 0 100%;
+		}
+		.col-7 {
+			max-width: 100%;
+			flex: 0 0 100%;
+		}
+	}
 }
+
 
 .allow-icon-click{
   pointer-events: auto;
