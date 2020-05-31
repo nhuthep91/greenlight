@@ -4,15 +4,20 @@ class SsoController < ApplicationController
     skip_before_action :set_user_settings, :maintenance_mode?, :migration_error?, :user_locale, :check_admin_password, :check_user_role
     # Auth from token
     def access
+		require 'openssl'
 		require 'open-uri'
 		require 'json'
 		request_url = "https://atmlucky.com/api/auth/code?"
         token = "code=" + params[:access_token]
         url = "#{request_url}#{token}"
+	logger.info "url: #{url}"
         begin
-            data = URI.parse(url).read
+	    request_uri=URI.parse(url)
+	    output=open(request_uri, {ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE})
+            data = output.read
             json = JSON.parse(data)
             if json.key?("errors")
+		logger.info "Fail: #{json}"
                 raise Exception.new('Invalid token')
             end
             user = json["data"]["user"];
